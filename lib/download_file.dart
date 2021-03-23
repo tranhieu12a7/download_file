@@ -7,6 +7,7 @@ import 'download_files/blocs/bloc.dart';
 export 'package:download_file/download_files/blocs/bloc.dart';
 export 'package:download_file/download_files/models/model_download.dart';
 export 'package:download_file/download_files/widgets/widget_download_file.dart';
+export 'package:download_file/download_files/widgets/widget_download_file.dart';
 
 class DownloadFile{
 
