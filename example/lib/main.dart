@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:download_file/download_file.dart';
 
 void main() {
   runApp(MyApp());
