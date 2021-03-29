@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 
@@ -7,13 +8,10 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:vietinfo_dev_core/core/path_locals.dart';
 
 class FileService {
-
-
-  Future<String> downloadFile(
-      {@required String urlFile,
-      String linkDownload,
-      Function(double) showDownloadProgress,
-      String pathFolderFile = ""}) async {
+  Future<String> downloadFile({@required String urlFile,
+    String linkDownload,
+    Function(double) showDownloadProgress,
+    String pathFolderFile = ""}) async {
     var param = new Map<String, String>();
     String URL = '';
     var temp = urlFile.split('/');
@@ -38,18 +36,18 @@ class FileService {
       } else {
         // Directory tempDir = await getTemporaryDirectory();
         tempDir =
-            await PathFileLocals().getPathLocal(ePathType: EPathType.Download);
+        await PathFileLocals().getPathLocal(ePathType: EPathType.Download);
         // Directory tempDir = await getApplicationDocumentsDirectory();
         tempPath = tempDir.path;
       }
 
       File file = new File("${tempDir.path}/${fileName}");
 
-      if (await PathFileLocals().checkExistFile(path:file.path) == true && file.lengthSync()>0) {
+      if (await PathFileLocals().checkExistFile(path: file.path) == true &&
+          file.lengthSync() > 0) {
         // File file = new File("${tempPath}/${fileName}");
         return file.path;
-      }
-      else {
+      } else {
         if (param.length > 0) {
           response = await dio.post(
             URL,
@@ -65,11 +63,12 @@ class FileService {
                 receiveTimeout: 0),
             data: param,
           );
-        }
-        else {
-          var link= URL.contains(linkDownload ?? "") ? URL : linkDownload + URL ;
+        } else {
+          var link =
+          URL.contains(linkDownload ?? "") ? URL : linkDownload + URL;
 
-          response = await dio.get(link,
+          response = await dio.get(
+            link,
             onReceiveProgress: (received, total) async {
               // String dataProgress = (received / total * 100).toStringAsFixed(0);
               double dataProgress = (received / total * 100);
@@ -88,8 +87,8 @@ class FileService {
           await Permission.storage.request();
         }
         File file = new File("${tempPath}/${fileName}");
-
-        file.writeAsBytesSync(response.data);
+        print("response.data = ${response.data}");
+        await file.writeAsBytesSync(response.data);
       }
       return file.path;
     } catch (error) {
@@ -98,31 +97,66 @@ class FileService {
     }
   }
 
-  Future<http.ByteStream> uploadFile(
-      {@required String path,
-      @required String linkUpload,
-      Map<String, String> fields}) async {
+  Future<String> uploadFile({@required String path,
+    @required String linkUpload,
+    @required String keyUploadFile,
+    Map<String, String> fields}) async {
     var postUri = Uri.parse(linkUpload);
     var request = new http.MultipartRequest("POST", postUri);
+
+    // request.fields['PhanLoai'] = 'CHAT';
     if (fields != null) {
       for (var key in fields.keys) {
         request.fields[key] = fields[key];
       }
     }
     Uri uri = Uri(path: path);
-    String fileName = path.split("/")?.last;
+    // String fileName = path.split("/")?.last;
+    // if (fileName == null || fileName == "") {
+    //   fileName = path.split("\\")?.last;
+    // }
+    String fileName = path
+        .split("/")
+        ?.last;
     if (fileName == null || fileName == "") {
-      fileName = path.split("\\")?.last;
+      fileName = path
+          .split("\\")
+          ?.last;
     }
+    if (fileName.length > 55) {
+      fileName = "${DateTime
+          .now()
+          .day}${DateTime
+          .now()
+          .month}${DateTime
+          .now()
+          .year}${DateTime
+          .now()
+          .hour}${DateTime
+          .now()
+          .minute}${DateTime
+          .now()
+          .microsecond}.${fileName
+          .split(".")
+          .last}";
+    }
+
     request.files.add(new http.MultipartFile.fromBytes(
-        'file', await File.fromUri(uri).readAsBytes(),
+        keyUploadFile ?? 'file', await File.fromUri(uri).readAsBytes(),
         filename: fileName));
     try {
       http.StreamedResponse streamedResponse = await request.send();
       if (streamedResponse.statusCode != 200) {
         return null;
       }
-      return streamedResponse.stream;
+
+      String urlFile="";
+      await streamedResponse.stream.transform(utf8.decoder).forEach((element) {
+        if (element != null) {
+          urlFile += element.toString();
+        }
+      });
+      return urlFile;
     } catch (error) {
       throw (" downloadFile - $error");
       return null;
