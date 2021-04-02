@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
   <component name="BranchesTreeState">
     <expand>
       <path>
@@ -19,25 +22,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c401116c-b627-461a-bba5-faaade719155" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/services/api_services.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/upload_files/bloc/bloc.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/download_file.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/download_file.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/download_files/blocs/bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/download_files/blocs/bloc.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/download_files/services/api_services.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
-    </list>
+    <list default="true" id="c401116c-b627-461a-bba5-faaade719155" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[D1AGAD1781012268]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[29c7da5e7d04]" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -59,11 +50,13 @@
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="dart.analysis.tool.window.force.activate" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="memory.settings" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../vietinfo_dev_core" />
+    <property name="settings.editor.selected.configurable" value="flutter.settings" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="SvnConfiguration">
@@ -95,18 +88,37 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="580" y="185" key="FileChooserDialogImpl" timestamp="1616488710847">
-      <screen x="0" y="0" width="1600" height="860" />
+    <state x="696" y="224" key="FileChooserDialogImpl" timestamp="1617355434243">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="580" y="185" key="FileChooserDialogImpl/0.0.1600.860@0.0.1600.860" timestamp="1616488710847" />
-    <state x="301" y="75" key="SettingsEditor" timestamp="1616488758675">
-      <screen x="0" y="0" width="1600" height="860" />
+    <state x="696" y="224" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1617355434243" />
+    <state width="1877" height="281" key="GridCell.Tab.0.bottom" timestamp="1617355581505">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1617355581505" />
+    <state width="1877" height="281" key="GridCell.Tab.0.center" timestamp="1617355581505">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="281" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1617355581505" />
+    <state width="1877" height="281" key="GridCell.Tab.0.left" timestamp="1617355581505">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="281" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1617355581505" />
+    <state width="1877" height="281" key="GridCell.Tab.0.right" timestamp="1617355581505">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="281" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1617355581505" />
+    <state x="361" y="91" key="SettingsEditor" timestamp="1617354155529">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="301" y="75" key="SettingsEditor/0.0.1600.860@0.0.1600.860" timestamp="1616488758675" />
-    <state x="507" y="163" width="585" height="534" key="find.popup" timestamp="1616488365563">
-      <screen x="0" y="0" width="1600" height="860" />
+    <state x="361" y="91" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1617354155529" />
+    <state x="608" y="197" width="702" height="646" key="find.popup" timestamp="1617355641044">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="507" y="163" width="585" height="534" key="find.popup/0.0.1600.860@0.0.1600.860" timestamp="1616488365563" />
+    <state x="608" y="197" width="702" height="646" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1617355641044" />
     <state x="463" y="180" width="672" height="678" key="search.everywhere.popup" timestamp="1616669780256">
       <screen x="0" y="0" width="1600" height="860" />
     </state>

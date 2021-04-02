@@ -11,20 +11,24 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
   flutter_bloc: ^6.1.3
   percent_indicator: ^2.1.9+1
   permission_handler: ^5.1.0+2
   path_provider: ^1.6.28
   dio: ^3.0.10
-  downloads_path_provider: ^0.1.0
   open_file:
   progress_dialog:
 
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
   vietinfo_dev_core:
-    path: ../../../code/FlutterPackages/vietinfo_dev_core
+    git: https://github.com/tranhieu12a7/vietinfo_dev_core.git
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
