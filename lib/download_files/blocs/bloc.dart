@@ -7,8 +7,7 @@ import 'package:open_file/open_file.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
 class DownloadFileBloc extends Cubit<Object> {
-  StreamController<ModelDownload> streamController =
-      StreamController<ModelDownload>.broadcast();
+  StreamController<ModelDownload> streamController ;
 
   Function({String linkDownload, String path, ModelDownload modelDownload})
       startDownloadByWidget;
@@ -20,7 +19,8 @@ class DownloadFileBloc extends Cubit<Object> {
 
   DownloadFileBloc() : super(Object()) {
     fileService = FileService();
-
+    streamController =
+    StreamController<ModelDownload>();
     startDownloadAndOpenFile = (
         {BuildContext context,
         String linkDownload,
@@ -62,6 +62,6 @@ class DownloadFileBloc extends Cubit<Object> {
   }
 
   void dispose() {
-    streamController.close();
+    // streamController.close();
   }
 }
