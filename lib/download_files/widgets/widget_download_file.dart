@@ -13,12 +13,16 @@ class WidgetDownloadFileMain extends StatelessWidget {
   final String urlFile;
   final AsyncWidgetBuilder<ModelDownload> builder;
 
-  const WidgetDownloadFileMain({Key key, this.urlFile,this.builder}) : super(key: key);
+  const WidgetDownloadFileMain({Key key, this.urlFile, this.builder})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      child: WidgetDownloadFile(builder: builder,urlFile: urlFile,),
+      child: WidgetDownloadFile(
+        builder: builder,
+        urlFile: urlFile,
+      ),
       create: (context) => DownloadFileBloc(),
     );
   }
@@ -26,24 +30,31 @@ class WidgetDownloadFileMain extends StatelessWidget {
 
 class WidgetDownloadFile extends StatefulWidget {
   final String urlFile;
+  final BuildContext buildContext;
   final AsyncWidgetBuilder<ModelDownload> builder;
 
-  WidgetDownloadFile({Key key, this.urlFile, this.builder}) : super(key: key);
+  WidgetDownloadFile({Key key, this.urlFile, this.buildContext, this.builder})
+      : super(key: key);
 
   @override
   _WidgetDownloadFileState createState() => _WidgetDownloadFileState();
 }
 
 class _WidgetDownloadFileState extends State<WidgetDownloadFile> {
-  DownloadFileBloc bloc ;
+  DownloadFileBloc bloc;
+
+  UploadFileBloc blocUpload;
+
   ModelDownload modelDownload;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    bloc=BlocProvider.of<DownloadFileBloc>(context);
+    bloc = BlocProvider.of<DownloadFileBloc>(widget.buildContext);
+    blocUpload = BlocProvider.of<UploadFileBloc>(widget.buildContext);
     DownloadFile.downloadFileBloc = bloc;
+    DownloadFile.uploadFileBloc = blocUpload;
     modelDownload = new ModelDownload(value: 0.0, urlFile: widget.urlFile);
   }
 
@@ -51,7 +62,7 @@ class _WidgetDownloadFileState extends State<WidgetDownloadFile> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    bloc.dispose();
+    // bloc.dispose();
   }
 
   checkFile(String urlFile) async {
@@ -65,7 +76,6 @@ class _WidgetDownloadFileState extends State<WidgetDownloadFile> {
         return true;
       }
       return false;
-      return false;
     } catch (error) {
       return false;
     }
@@ -77,25 +87,22 @@ class _WidgetDownloadFileState extends State<WidgetDownloadFile> {
       future: checkFile(modelDownload.urlFile),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          if (snapshot.data)
-            return widget.builder.call(
+          if (snapshot.data) {
+            widget.builder.call(
                 context,
                 AsyncSnapshot<ModelDownload>.withData(
                     ConnectionState.done, modelDownload.clone(value: 100.0)));
-          else {
-            return StreamBuilder(
-              builder: widget.builder,
-              stream: bloc.streamController.stream,
-            );
-            // return  childChange.call(modelDownload.clone(value: 0.0));
           }
+          return StreamBuilder(
+            builder: widget.builder,
+            stream: bloc.streamController.stream,
+          );
+          // return  childChange.call(modelDownload.clone(value: 0.0));
         }
         return CircularProgressIndicator(
           strokeWidth: 1.0,
         );
       },
     );
-
-
   }
 }

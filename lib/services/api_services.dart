@@ -1,6 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+
+import 'package:path/path.dart' as fileUtil;
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,10 +11,11 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:vietinfo_dev_core/core/path_locals.dart';
 
 class FileService {
-  Future<String> downloadFile({@required String urlFile,
-    String linkDownload,
-    Function(double) showDownloadProgress,
-    String pathFolderFile = ""}) async {
+  Future<String> downloadFile(
+      {@required String urlFile,
+      String linkDownload,
+      Function(double) showDownloadProgress,
+      String pathFolderFile = ""}) async {
     var param = new Map<String, String>();
     String URL = '';
     var temp = urlFile.split('/');
@@ -36,7 +40,7 @@ class FileService {
       } else {
         // Directory tempDir = await getTemporaryDirectory();
         tempDir =
-        await PathFileLocals().getPathLocal(ePathType: EPathType.Download);
+            await PathFileLocals().getPathLocal(ePathType: EPathType.Download);
         // Directory tempDir = await getApplicationDocumentsDirectory();
         tempPath = tempDir.path;
       }
@@ -65,7 +69,7 @@ class FileService {
           );
         } else {
           var link =
-          URL.contains(linkDownload ?? "") ? URL : linkDownload + URL;
+              URL.contains(linkDownload ?? "") ? URL : linkDownload + URL;
 
           response = await dio.get(
             link,
@@ -97,48 +101,26 @@ class FileService {
     }
   }
 
-  Future<String> uploadFile({@required String path,
-    @required String linkUpload,
-    @required String keyUploadFile,
-    Map<String, String> fields}) async {
+  Future<String> uploadFile(
+      {@required String path,
+      @required String linkUpload,
+      @required String keyUploadFile,
+      Map<String, String> fields}) async {
     var postUri = Uri.parse(linkUpload);
     var request = new http.MultipartRequest("POST", postUri);
-
-    // request.fields['PhanLoai'] = 'CHAT';
     if (fields != null) {
       for (var key in fields.keys) {
         request.fields[key] = fields[key];
       }
     }
     Uri uri = Uri(path: path);
-    // String fileName = path.split("/")?.last;
-    // if (fileName == null || fileName == "") {
-    //   fileName = path.split("\\")?.last;
-    // }
-    String fileName = path
-        .split("/")
-        ?.last;
+    String fileName = path.split("/")?.last;
     if (fileName == null || fileName == "") {
-      fileName = path
-          .split("\\")
-          ?.last;
+      fileName = path.split("\\")?.last;
     }
     if (fileName.length > 55) {
-      fileName = "${DateTime
-          .now()
-          .day}${DateTime
-          .now()
-          .month}${DateTime
-          .now()
-          .year}${DateTime
-          .now()
-          .hour}${DateTime
-          .now()
-          .minute}${DateTime
-          .now()
-          .microsecond}.${fileName
-          .split(".")
-          .last}";
+      fileName =
+          "${DateTime.now().day}${DateTime.now().month}${DateTime.now().year}${DateTime.now().hour}${DateTime.now().minute}${DateTime.now().microsecond}.${fileName.split(".").last}";
     }
 
     request.files.add(new http.MultipartFile.fromBytes(
@@ -150,7 +132,7 @@ class FileService {
         return null;
       }
 
-      String urlFile="";
+      String urlFile = "";
       await streamedResponse.stream.transform(utf8.decoder).forEach((element) {
         if (element != null) {
           urlFile += element.toString();
@@ -161,5 +143,105 @@ class FileService {
       throw (" downloadFile - $error");
       return null;
     }
+  }
+
+  Future<String> fileUploadMultipart(
+      {@required String path,
+      @required String linkUpload,
+      @required String keyUploadFile,
+        @required Function uploadProgress,
+      Map<String, String> fields}) async {
+    assert(path != null);
+    Uri uri = Uri(path: path);
+    final url = linkUpload;
+    final httpClient = getHttpClient();
+
+    final request = await httpClient.postUrl(Uri.parse(url));
+
+    int byteCount = 0;
+
+    var multipart =
+        await http.MultipartFile.fromPath(keyUploadFile ?? 'file', path);
+
+    // final fileStreamFile = file.openRead();
+    // var multipart = MultipartFile("file", fileStreamFile, file.lengthSync(),
+    //     filename: fileUtil.basename(file.path));
+    var requestMultipart = http.MultipartRequest("POST", Uri.parse(url));
+    requestMultipart.files.add(multipart);
+    if (fields != null) {
+      for (var key in fields.keys) {
+        requestMultipart.fields[key] = fields[key];
+      }
+    }
+
+    var msStream = requestMultipart.finalize();
+
+    var totalByteLength = requestMultipart.contentLength;
+
+    request.contentLength = totalByteLength;
+
+    request.headers.set(HttpHeaders.contentTypeHeader,
+        requestMultipart.headers[HttpHeaders.contentTypeHeader]);
+
+    Stream<List<int>> streamUpload = msStream.transform(
+      new StreamTransformer.fromHandlers(
+        handleData: (data, sink) {
+          sink.add(data);
+          byteCount += data.length;
+          double dataProgress = (byteCount / totalByteLength * 100);
+          print("dataProgress: ${dataProgress}");
+
+          uploadProgress?.call(dataProgress);
+          // if (onUploadProgress != null) {
+          //   onUploadProgress(byteCount, totalByteLength);
+          //   // CALL STATUS CALLBACK;
+          // }
+        },
+        handleError: (error, stack, sink) {
+          throw error;
+        },
+        handleDone: (sink) {
+          sink.close();
+          // UPLOAD DONE;
+        },
+      ),
+    );
+
+    await request.addStream(streamUpload);
+
+    final httpResponse = await request.close();
+//
+    var statusCode = httpResponse.statusCode;
+
+    if (statusCode ~/ 100 != 2) {
+      throw Exception(
+          'Error uploading file, Status code: ${httpResponse.statusCode}');
+    } else {
+      var aaaa= await readResponseAsString(httpResponse);
+      return aaaa;
+    }
+  }
+
+  static bool trustSelfSigned = true;
+
+  static HttpClient getHttpClient() {
+    HttpClient httpClient = new HttpClient()
+      ..connectionTimeout = const Duration(seconds: 10)
+      ..badCertificateCallback =
+          ((X509Certificate cert, String host, int port) => trustSelfSigned);
+
+    return httpClient;
+  }
+
+  static Future<String> readResponseAsString(
+      HttpClientResponse response) async {
+    String urlFile = "";
+    await response.transform(utf8.decoder).forEach((element) {
+      if (element != null) {
+        urlFile += jsonDecode(element);
+      }
+    });
+    return urlFile;
+
   }
 }
