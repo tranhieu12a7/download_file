@@ -2,18 +2,13 @@
   <library name="Flutter Plugins" type="FlutterPluginsLibraryType">
     <CLASSES>
       <root url="file://$PROJECT_DIR$" />
-      <root url="file://C:/flutter_1.22.3/flutter/.pub-cache/git/vietinfo_dev_core-8e2af8db745480d00f426bf884e0af6265ce6199" />
       <root url="file://C:/flutter_1.22.3/flutter/.pub-cache/hosted/pub.dartlang.org/permission_handler-5.1.0+2" />
       <root url="file://C:/flutter_1.22.3/flutter/.pub-cache/hosted/pub.dartlang.org/open_file-3.0.3" />
-      <root url="file://C:/flutter_1.22.3/flutter/.pub-cache/hosted/pub.dartlang.org/downloads_path_provider-0.1.0" />
       <root url="file://C:/flutter_1.22.3/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_windows-0.0.4+3" />
-      <root url="file://C:/flutter_1.22.3/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_web-0.1.2+7" />
       <root url="file://C:/flutter_1.22.3/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_linux-0.0.1+2" />
-      <root url="file://C:/flutter_1.22.3/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_linux-0.0.2+4" />
       <root url="file://C:/flutter_1.22.3/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-1.6.28" />
-      <root url="file://C:/flutter_1.22.3/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.5.12+4" />
-      <root url="file://C:/flutter_1.22.3/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_windows-0.0.2+3" />
       <root url="file://C:/flutter_1.22.3/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_macos-0.0.4+8" />
+      <root url="file://C:/flutter_1.22.3/flutter/.pub-cache/git/vietinfo_dev_core-496dd6a94f5832884da8d1f8d8132cfd97477f8f" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
