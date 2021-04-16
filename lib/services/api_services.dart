@@ -24,7 +24,7 @@ class FileService {
       param['fileUrl'] = urlFile;
       param['fileName'] = fileName;
     } else {
-      URL = urlFile;
+      URL = urlFile.contains(linkDownload) ? urlFile : linkDownload + urlFile;
     }
     // url = 'Alfresco/HocMon/CPXD/49/2020/7/CPXD_49_20200715114132_bv(1).jpg';
     var dio = Dio();
@@ -147,7 +147,7 @@ class FileService {
       {@required String path,
       @required String linkUpload,
       @required String keyUploadFile,
-        @required Function uploadProgress,
+      @required Function uploadProgress,
       Map<String, String> fields}) async {
     assert(path != null);
     Uri uri = Uri(path: path);
@@ -215,7 +215,7 @@ class FileService {
       throw Exception(
           'Error uploading file, Status code: ${httpResponse.statusCode}');
     } else {
-      var aaaa= await readResponseAsString(httpResponse);
+      var aaaa = await readResponseAsString(httpResponse);
       return aaaa;
     }
   }
@@ -240,6 +240,5 @@ class FileService {
       }
     });
     return urlFile;
-
   }
 }
