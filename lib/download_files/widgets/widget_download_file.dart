@@ -99,8 +99,12 @@ class _WidgetDownloadFileState extends State<WidgetDownloadFile> {
           );
           // return  childChange.call(modelDownload.clone(value: 0.0));
         }
-        return CircularProgressIndicator(
-          strokeWidth: 1.0,
+        return SizedBox(
+          height: MediaQuery.of(context).size.width/4,
+          width: MediaQuery.of(context).size.width/4,
+          child: CircularProgressIndicator(
+            strokeWidth: 1.0,
+          ),
         );
       },
     );
