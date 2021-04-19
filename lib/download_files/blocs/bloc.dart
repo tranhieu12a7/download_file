@@ -26,22 +26,27 @@ class DownloadFileBloc extends Cubit<Object> {
         String path,
         ModelDownload modelDownload}) async {
       final ProgressDialog progressDialog =
-          ProgressDialog(context);
+      ProgressDialog(context);
       progressDialog.style(message: "Đang tải...");
-      await progressDialog.show();
-      var pathResult = await fileService.downloadFile(
-          urlFile: modelDownload.urlFile,
-          linkDownload: linkDownload,
-          pathFolderFile: path,
-          showDownloadProgress: (value) {
-            // streamController.sink.add(modelDownload.clone(value: value ?? 0.0));
-          });
-      // if (pathResult != null) {
-      //   // streamController.sink.add(modelDownload.clone(value: 100.0));
-      // }
-      await progressDialog.hide();
-      await OpenFile.open(pathResult);
-      return pathResult;
+        try{
+          await progressDialog.show();
+          var pathResult = await fileService.downloadFile(
+              urlFile: modelDownload.urlFile,
+              linkDownload: linkDownload,
+              pathFolderFile: path,
+              showDownloadProgress: (value) {
+                // streamController.sink.add(modelDownload.clone(value: value ?? 0.0));
+              });
+          // if (pathResult != null) {
+          //   // streamController.sink.add(modelDownload.clone(value: 100.0));
+          // }
+          await progressDialog.hide();
+          await OpenFile.open(pathResult);
+          return pathResult;
+        }catch(error){
+          await progressDialog.hide();
+          throw("startDownloadAndOpenFile - $error");
+        }
     };
 
     startDownloadByWidget = (
