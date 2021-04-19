@@ -9,11 +9,10 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:vietinfo_dev_core/core/path_locals.dart';
 
 class FileService {
-  Future<String> downloadFile(
-      {@required String urlFile,
-      String linkDownload,
-      Function(double) showDownloadProgress,
-      String pathFolderFile = ""}) async {
+  Future<String> downloadFile({@required String urlFile,
+    String linkDownload,
+    Function(double) showDownloadProgress,
+    String pathFolderFile = ""}) async {
     var param = new Map<String, String>();
     String URL = '';
     var temp = urlFile.split('/');
@@ -38,7 +37,7 @@ class FileService {
       } else {
         // Directory tempDir = await getTemporaryDirectory();
         tempDir =
-            await PathFileLocals().getPathLocal(ePathType: EPathType.Download);
+        await PathFileLocals().getPathLocal(ePathType: EPathType.Download);
         // Directory tempDir = await getApplicationDocumentsDirectory();
         tempPath = tempDir.path;
       }
@@ -67,7 +66,7 @@ class FileService {
           );
         } else {
           var link =
-              URL.contains(linkDownload ?? "") ? URL : linkDownload + URL;
+          URL.contains(linkDownload ?? "") ? URL : linkDownload + URL;
 
           response = await dio.get(
             link,
@@ -99,11 +98,10 @@ class FileService {
     }
   }
 
-  Future<String> uploadFile(
-      {@required String path,
-      @required String linkUpload,
-      @required String keyUploadFile,
-      Map<String, String> fields}) async {
+  Future<String> uploadFile({@required String path,
+    @required String linkUpload,
+    @required String keyUploadFile,
+    Map<String, String> fields}) async {
     var postUri = Uri.parse(linkUpload);
     var request = new http.MultipartRequest("POST", postUri);
     if (fields != null) {
@@ -112,13 +110,31 @@ class FileService {
       }
     }
     Uri uri = Uri(path: path);
-    String fileName = path.split("/")?.last;
+    String fileName = path
+        .split("/")
+        ?.last;
     if (fileName == null || fileName == "") {
-      fileName = path.split("\\")?.last;
+      fileName = path
+          .split("\\")
+          ?.last;
     }
     if (fileName.length > 55) {
       fileName =
-          "${DateTime.now().day}${DateTime.now().month}${DateTime.now().year}${DateTime.now().hour}${DateTime.now().minute}${DateTime.now().microsecond}.${fileName.split(".").last}";
+      "${DateTime
+          .now()
+          .day}${DateTime
+          .now()
+          .month}${DateTime
+          .now()
+          .year}${DateTime
+          .now()
+          .hour}${DateTime
+          .now()
+          .minute}${DateTime
+          .now()
+          .microsecond}.${fileName
+          .split(".")
+          .last}";
     }
 
     request.files.add(new http.MultipartFile.fromBytes(
@@ -143,12 +159,11 @@ class FileService {
     }
   }
 
-  Future<String> fileUploadMultipart(
-      {@required String path,
-      @required String linkUpload,
-      @required String keyUploadFile,
-      @required Function uploadProgress,
-      Map<String, String> fields}) async {
+  Future<String> fileUploadMultipart({@required String path,
+    @required String linkUpload,
+    @required String keyUploadFile,
+    @required Function uploadProgress,
+    Map<String, String> fields}) async {
     assert(path != null);
     Uri uri = Uri(path: path);
     final url = linkUpload;
@@ -159,7 +174,7 @@ class FileService {
     int byteCount = 0;
 
     var multipart =
-        await http.MultipartFile.fromPath(keyUploadFile ?? 'file', path);
+    await http.MultipartFile.fromPath(keyUploadFile ?? 'file', path);
 
     // final fileStreamFile = file.openRead();
     // var multipart = MultipartFile("file", fileStreamFile, file.lengthSync(),
@@ -183,13 +198,14 @@ class FileService {
 
     Stream<List<int>> streamUpload = msStream.transform(
       new StreamTransformer.fromHandlers(
-        handleData: (data, sink) {
+        handleData: (data, sink) async {
           sink.add(data);
           byteCount += data.length;
           double dataProgress = (byteCount / totalByteLength * 100);
-          print("dataProgress: ${dataProgress}");
-
+          // print("dataProgress: ${dataProgress}");
+          // if (dataProgress != 100.0)
           uploadProgress?.call(dataProgress);
+
           // if (onUploadProgress != null) {
           //   onUploadProgress(byteCount, totalByteLength);
           //   // CALL STATUS CALLBACK;
@@ -226,7 +242,7 @@ class FileService {
     HttpClient httpClient = new HttpClient()
       ..connectionTimeout = const Duration(seconds: 10)
       ..badCertificateCallback =
-          ((X509Certificate cert, String host, int port) => trustSelfSigned);
+      ((X509Certificate cert, String host, int port) => trustSelfSigned);
 
     return httpClient;
   }
