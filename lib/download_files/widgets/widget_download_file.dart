@@ -58,7 +58,8 @@ class _WidgetDownloadFileState extends State<WidgetDownloadFile> {
       DownloadFile.uploadFileBloc = blocUpload;
     }
     else{
-      DownloadFile.downloadFileBloc = BlocProvider.of<DownloadFileBloc>(context);
+      bloc = BlocProvider.of<DownloadFileBloc>(context);
+      DownloadFile.downloadFileBloc = bloc;
     }
     modelDownload = new ModelDownload(value: 0.0, urlFile: widget.urlFile);
   }
