@@ -51,10 +51,15 @@ class _WidgetDownloadFileState extends State<WidgetDownloadFile> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    bloc = BlocProvider.of<DownloadFileBloc>(widget.buildContext);
-    blocUpload = BlocProvider.of<UploadFileBloc>(widget.buildContext);
-    DownloadFile.downloadFileBloc = bloc;
-    DownloadFile.uploadFileBloc = blocUpload;
+    if (widget.buildContext != null) {
+      bloc = BlocProvider.of<DownloadFileBloc>(widget.buildContext);
+      blocUpload = BlocProvider.of<UploadFileBloc>(widget.buildContext);
+      DownloadFile.downloadFileBloc = bloc;
+      DownloadFile.uploadFileBloc = blocUpload;
+    }
+    else{
+      DownloadFile.downloadFileBloc = BlocProvider.of<DownloadFileBloc>(context);
+    }
     modelDownload = new ModelDownload(value: 0.0, urlFile: widget.urlFile);
   }
 
@@ -100,7 +105,7 @@ class _WidgetDownloadFileState extends State<WidgetDownloadFile> {
           // return  childChange.call(modelDownload.clone(value: 0.0));
         }
         return SizedBox(
-          height:40,
+          height: 40,
           width: 40,
           child: Center(
             child: CircularProgressIndicator(
