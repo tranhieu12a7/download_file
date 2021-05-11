@@ -159,7 +159,7 @@ class FileService {
     }
   }
 
-  Future<String> fileUploadMultipart({@required String path,
+  Future<dynamic> fileUploadMultipart({@required String path,
     @required String linkUpload,
     @required String keyUploadFile,
     @required Function uploadProgress,
@@ -231,8 +231,8 @@ class FileService {
       throw Exception(
           'Error uploading file, Status code: ${httpResponse.statusCode}');
     } else {
-      var aaaa = await readResponseAsString(httpResponse);
-      return aaaa;
+      dynamic linkResult = await readResponseAsString(httpResponse);
+      return linkResult;
     }
   }
 
@@ -247,12 +247,16 @@ class FileService {
     return httpClient;
   }
 
-  static Future<String> readResponseAsString(
+  static Future<dynamic> readResponseAsString(
       HttpClientResponse response) async {
-    String urlFile = "";
+    dynamic urlFile = "";
     await response.transform(utf8.decoder).forEach((element) {
       if (element != null) {
-        urlFile += jsonDecode(element);
+       try{
+         urlFile += jsonDecode(element);
+       }catch(error){
+         urlFile+=element;
+       }
       }
     });
     return urlFile;
